@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	public float friction = 1;
 	public float chargeSpeed = 10;
 	public float flickCooldown = 50;
+	public float respawnDelay = 3;
 	public int playerNum;
 
 	public GameObject aimer;
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour {
 	void ShowFlickAim(Vector2 aim){
 		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 270; //added degrees at end will change depending on which way sprite faces
  		aimer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+ 		aimer.transform.localPosition = aim.normalized * -0.7f;
 	}
 
 	void ChargeFlick() {
@@ -143,14 +145,20 @@ public class PlayerController : MonoBehaviour {
     void Die(){
     	lives--;
     	alive = false;
-    	StartCoroutine(Respawn());
+    	if (lives >= 1){
+    		StartCoroutine(Respawn());
+    	}
+    	else {
+    		Debug.Log("Player " + playerNum + " is out of lives.");
+    		Destroy(this);
+    	}
     }
 
     IEnumerator Respawn(){
 		//should make sure players don't spawn on top of each other
     	transform.position = map.transform.Find("Spawnpoints").GetChild(playerNum).position;
     	rb.velocity = new Vector2(0,0);
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(respawnDelay);
     	transform.localScale = new Vector3(1.0f,1.0f,0.0f);
     	alive = true;
     }

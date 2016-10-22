@@ -30,20 +30,10 @@ public class GameController : MonoBehaviour {
 
 	void WaitForJoinPlayers(){
 		int joinedPlayerNum = -1;
-		if (Input.GetButtonDown("Player0A")){
-			joinedPlayerNum = 0;
-		}
-		if (Input.GetButtonDown("Player1A")){
-			joinedPlayerNum = 1;
-		}
-		if (Input.GetButtonDown("Player2A")){
-			joinedPlayerNum = 2;
-		}
-		if (Input.GetButtonDown("Player3A")){
-			joinedPlayerNum = 3;
-		}
-		if (Input.GetButtonDown("Player4A")){
-			joinedPlayerNum = 4;
+		for (int i = 0; i <= 4; i++){
+			if (Input.GetButtonDown("Player"+i+"A")){
+				joinedPlayerNum = i;
+			}
 		}
 
 		if (joinedPlayerNum >= 0){
@@ -67,7 +57,7 @@ public class GameController : MonoBehaviour {
 			}
 		}
 
-		return pressedStart;
+		return pressedStart && (joinedPlayers.Count > 0);
 	}
 
 	void StartNewGame(GameObject mapPrefab){
