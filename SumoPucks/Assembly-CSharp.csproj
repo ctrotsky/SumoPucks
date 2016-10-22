@@ -46,8 +46,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\GUI.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\NumberCount.cs" />
+     <Compile Include="Assets\Scripts\Pickup.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\PowerType.cs" />
      <Compile Include="Assets\Scripts\Powerups.cs" />
      <Compile Include="Assets\Scripts\Stats.cs" />
  <Reference Include="UnityEngine.UI">

@@ -4,7 +4,7 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public GameObject playerPrefab;
-	public GameObject map;
+	public GameObject mapPrefab;
 	public GameObject players;
 
 	ArrayList joinedPlayers = new ArrayList();
@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour {
 		if (mode == Mode.Joining){
 			WaitForJoinPlayers();
 			if (WaitForStart()){
-				StartNewGame(map);
+				StartNewGame(mapPrefab);
 				mode = Mode.Running;
 			}
 		}
@@ -70,13 +70,20 @@ public class GameController : MonoBehaviour {
 		return pressedStart;
 	}
 
-	void StartNewGame(GameObject map){
+	void StartNewGame(GameObject mapPrefab){
+
+		GameObject map = SpawnMap((GameObject)Instantiate(mapPrefab));
 		GameObject spawnPoints = map.transform.Find("Spawnpoints").gameObject;
 		//Do other new game stuff. Timer? Idk
 
 		for (int i = 0; i < joinedPlayers.Count; i++){
 			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), (int)joinedPlayers[i]);
 		}
+	}
+
+	public GameObject SpawnMap(GameObject map){
+		map.gameObject.name = "Map";
+		return map;
 	}
 
 	public void SpawnPlayer(GameObject player, Transform spawnPoint, int playerNumber){
