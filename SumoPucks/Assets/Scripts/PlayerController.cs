@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour {
 	public float chargeSpeed = 10;
 	public float flickCooldown = 50;
 	public int playerNum;
+
 	public GameObject aimer;
+	public GameObject flickCharge;
 	
 	// Use this for initialization
 	void Start () {
@@ -55,14 +57,17 @@ public class PlayerController : MonoBehaviour {
 		if (FlickPower < maxFlickPower){
 			FlickPower+= chargeSpeed;
 		}
+		AnimateCharge();
 	}
 
 	void Flick (Vector2 aim) {
 		print("aim: " + aim);
+		print("power: " + FlickPower);
 
 		rb.AddForce(aim * FlickPower * -1);
 		FlickPower = 0;
 		remainingFlickCooldown = flickCooldown;
+		flickCharge.transform.localScale = new Vector3(0.1f,0.1f,0f);
 	}
 
 	Vector2 getAim () {
@@ -71,5 +76,12 @@ public class PlayerController : MonoBehaviour {
 
 		Vector2 aim = new Vector2(h, v);
 		return aim;
+	}
+
+	void AnimateCharge(){
+		float increment = transform.localScale.x / (flickCooldown*chargeSpeed);
+		if (flickCharge.transform.localScale.x < transform.localScale.x){
+			flickCharge.transform.localScale += new Vector3(increment, increment, 0);
+		}
 	}
 }
