@@ -4,29 +4,86 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public GameObject playerPrefab;
-	public GameObject map;
+	public GameObject mapPrefab;
 	public GameObject players;
+
+	ArrayList joinedPlayers = new ArrayList();
+
+	enum Mode {Joining, Running};
+	Mode mode;
 	
 	// Use this for initialization
 	void Start () {
-		StartNewGame(map, 3);
+		mode = Mode.Joining;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-	}
-
-	void WaitForPlayerConnect(){
-
-	}
-
-	void StartNewGame(GameObject map, int numPlayers){
-		GameObject spawnPoints = map.transform.Find("Spawnpoints").gameObject;
-
-		for (int i = 0; i < numPlayers; i++){
-			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), i);
+		if (mode == Mode.Joining){
+			WaitForJoinPlayers();
+			if (WaitForStart()){
+				StartNewGame(mapPrefab);
+				mode = Mode.Running;
+			}
 		}
+	}
+
+	void WaitForJoinPlayers(){
+		int joinedPlayerNum = -1;
+		if (Input.GetButtonDown("Player0A")){
+			joinedPlayerNum = 0;
+		}
+		if (Input.GetButtonDown("Player1A")){
+			joinedPlayerNum = 1;
+		}
+		if (Input.GetButtonDown("Player2A")){
+			joinedPlayerNum = 2;
+		}
+		if (Input.GetButtonDown("Player3A")){
+			joinedPlayerNum = 3;
+		}
+		if (Input.GetButtonDown("Player4A")){
+			joinedPlayerNum = 4;
+		}
+
+		if (joinedPlayerNum >= 0){
+			if (!joinedPlayers.Contains(joinedPlayerNum)){
+				Debug.Log("Player" + joinedPlayerNum + " Joined");
+				joinedPlayers.Add(joinedPlayerNum);
+			} else {
+				Debug.Log("Player" + joinedPlayerNum + " Quit");
+				joinedPlayers.Remove(joinedPlayerNum);
+			}
+			joinedPlayerNum = -1;
+		}
+	}
+
+	bool WaitForStart(){
+		bool pressedStart = false;
+
+		for (int i = 0; i <= 4; i++){
+			if (Input.GetButtonDown("Player"+i+"Start")){
+				pressedStart = true;
+			}
+		}
+
+		return pressedStart;
+	}
+
+	void StartNewGame(GameObject mapPrefab){
+
+		GameObject map = SpawnMap((GameObject)Instantiate(mapPrefab));
+		GameObject spawnPoints = map.transform.Find("Spawnpoints").gameObject;
+		//Do other new game stuff. Timer? Idk
+
+		for (int i = 0; i < joinedPlayers.Count; i++){
+			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), (int)joinedPlayers[i]);
+		}
+	}
+
+	public GameObject SpawnMap(GameObject map){
+		map.gameObject.name = "Map";
+		return map;
 	}
 
 	public void SpawnPlayer(GameObject player, Transform spawnPoint, int playerNumber){

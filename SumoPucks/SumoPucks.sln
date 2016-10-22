@@ -1,7 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumoPucks.CSharp", "SumoPucks.CSharp.csproj", "{CC4C7484-1B06-4CAC-F9D4-7CDA69B5D8AF}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{685B4C60-6353-A612-95C5-88E6DEF1DA6C}") = "SumoPucks", "Assembly-CSharp.csproj", "{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC4C7484-1B06-4CAC-F9D4-7CDA69B5D8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC4C7484-1B06-4CAC-F9D4-7CDA69B5D8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC4C7484-1B06-4CAC-F9D4-7CDA69B5D8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC4C7484-1B06-4CAC-F9D4-7CDA69B5D8AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
