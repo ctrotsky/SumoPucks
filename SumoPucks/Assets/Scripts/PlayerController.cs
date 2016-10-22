@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -21,6 +22,12 @@ public class PlayerController : MonoBehaviour {
     public Stats stats;
 
     public int lives = 3;
+
+    public enum PowerType
+    {
+        Spike, Jump, Hammer, Save
+    }
+    public PowerType powerType;
 
     // Use this for initialization
     void Start () {
@@ -92,10 +99,26 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Item")
+        //if (col.gameObject.tag == "Item")
+        powerType = (PowerType) Enum.Parse(typeof(PowerType), col.gameObject.tag);
+        switch(powerType)
         {
-            col.gameObject.GetComponent<Powerups>().addSpike();
-            
+            case PowerType.Spike:
+                col.gameObject.GetComponent<Powerups>().addSpike();
+                print("gained spike");
+                break;
+            case PowerType.Jump:
+                col.gameObject.GetComponent<Powerups>().addJump();
+                print("gained jump");
+                break;
+            case PowerType.Hammer:
+                col.gameObject.GetComponent<Powerups>().addHammer();
+                print("gained hammer");
+                break;
+            case PowerType.Save:
+                col.gameObject.GetComponent<Powerups>().addSave();
+                print("gained save");
+                break;
         }
     }
 
