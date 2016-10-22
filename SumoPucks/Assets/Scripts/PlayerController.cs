@@ -16,9 +16,12 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject aimer;
 	public GameObject flickCharge;
-	
-	// Use this for initialization
-	void Start () {
+
+    public Powerups powerUps;
+    public Stats stats;
+
+    // Use this for initialization
+    void Start () {
 		rb = GetComponent<Rigidbody2D>();
 		FlickPower = 0;
 		remainingFlickCooldown = 0;
@@ -84,4 +87,13 @@ public class PlayerController : MonoBehaviour {
 			flickCharge.transform.localScale += new Vector3(increment, increment, 0);
 		}
 	}
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Item")
+        {
+            col.gameObject.GetComponent<Powerups>().addSpike();
+            
+        }
+    }
 }
