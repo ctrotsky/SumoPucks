@@ -3,22 +3,39 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	Rigidbody rb;
+	Rigidbody2D rb;
+	private float Flickpower;
+	public float maxFlickPower = 50;
+	public float friction = 1;
+	
 	// Use this for initialization
 	void Start () {
-		rb = GetComponent<Rigidbody>();
+		rb = GetComponent<Rigidbody2D>();
+		Flickpower = 0;
+		rb.drag = friction;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		float h = Input.GetAxis("Horizontal");
-		float v = Input.GetAxis("Vertical");
-		
-		Vector3 aim = new Vector3(h, 0.0f, v);
-
+		if (Input.GetButton("Fire1")){
+			ChargeFlick();
+		}
+		if (Input.GetButtonUp("Fire1")){
+			Flick();
+		}
 	}
 
-	void Fling () {
-		
+	void ChargeFlick() {
+		Mathf.Clamp(Flickpower++, 0, maxFlickPower);
+	}
+
+	void Flick () {
+		float h = Input.GetAxis("Horizontal");
+		float v = Input.GetAxis("Vertical");
+
+		Vector2 aim = new Vector2(h, v).normalized * Flickpower;
+
+		rb.AddForce(aim);
+		Flickpower = 0;
 	}
 }
