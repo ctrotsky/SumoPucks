@@ -1,17 +1,18 @@
 # =============== #
 # Unity generated #
 # =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]uild
-/[Ll]ibrary/
+Build
+Temp/
+Obj/
+UnityGenerated/
+Library/
 sysinfo.txt
 *.stackdump
  
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
-[Ee]xported[Oo]bj/
+ExportedObj/
 .vs/
 /*.userprefs
 /*.csproj
@@ -31,5 +32,5 @@ sysinfo.txt
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-[Tt]humbs.db
-[Dd]esktop.ini
+Thumbs.db
+Desktop.ini
