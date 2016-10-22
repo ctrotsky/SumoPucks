@@ -1,18 +1,14 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{685B4C60-6353-A612-95C5-88E6DEF1DA6C}") = "SumoPucks", "Assembly-CSharp.csproj", "{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72B5BD4A-3C7E-D6CA-E3CE-D118D4FFC14C}.Release|Any CPU.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

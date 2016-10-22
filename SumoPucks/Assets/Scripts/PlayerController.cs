@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -13,10 +14,23 @@ public class PlayerController : MonoBehaviour {
 	public float chargeSpeed = 10;
 	public float flickCooldown = 50;
 	public int playerNum;
+
 	public GameObject aimer;
-	
-	// Use this for initialization
-	void Start () {
+	public GameObject flickCharge;
+
+    public Powerups powerUps;
+    public Stats stats;
+
+    public int lives = 3;
+
+    public enum PowerType
+    {
+        Spike, Jump, Hammer, Save
+    }
+    public PowerType powerType;
+
+    // Use this for initialization
+    void Start () {
 		rb = GetComponent<Rigidbody2D>();
 		FlickPower = 0;
 		remainingFlickCooldown = 0;
@@ -55,14 +69,17 @@ public class PlayerController : MonoBehaviour {
 		if (FlickPower < maxFlickPower){
 			FlickPower+= chargeSpeed;
 		}
+		AnimateCharge();
 	}
 
 	void Flick (Vector2 aim) {
 		print("aim: " + aim);
+		print("power: " + FlickPower);
 
 		rb.AddForce(aim * FlickPower * -1);
 		FlickPower = 0;
 		remainingFlickCooldown = flickCooldown;
+		flickCharge.transform.localScale = new Vector3(0.1f,0.1f,0f);
 	}
 
 	Vector2 getAim () {
@@ -72,4 +89,59 @@ public class PlayerController : MonoBehaviour {
 		Vector2 aim = new Vector2(h, v);
 		return aim;
 	}
+
+	void AnimateCharge(){
+		float increment = transform.localScale.x / (maxFlickPower/chargeSpeed);
+		if (flickCharge.transform.localScale.x < transform.localScale.x){
+			flickCharge.transform.localScale += new Vector3(increment, increment, 0);
+		}
+	}
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        //if (col.gameObject.tag == "Item")
+        powerType = (PowerType) Enum.Parse(typeof(PowerType), col.gameObject.tag);
+        switch(powerType)
+        {
+            case PowerType.Spike:
+                col.gameObject.GetComponent<Powerups>().addSpike();
+                print("gained spike");
+                break;
+            case PowerType.Jump:
+                col.gameObject.GetComponent<Powerups>().addJump();
+                print("gained jump");
+                break;
+            case PowerType.Hammer:
+                col.gameObject.GetComponent<Powerups>().addHammer();
+                print("gained hammer");
+                break;
+            case PowerType.Save:
+                col.gameObject.GetComponent<Powerups>().addSave();
+                print("gained save");
+                break;
+        }
+    }
+
+	void OnTriggerExit2D(Collider2D col)
+    {
+    	Debug.Log("ahhh");
+        if (col.gameObject.tag == "Floor")
+        {
+            AnimateFall();
+           	Die();
+        }
+    }
+
+    void AnimateFall(){
+    	for (int i = 0; i < transform.localScale.x; i++)
+    	{
+    		//this doesn't actually animate because it's not a couroutine lol
+    		transform.localScale = transform.localScale - new Vector3(1,1,0);
+    	}
+    }
+
+    void Die(){
+    	lives--;
+    	//respawn?
+    }
 }
