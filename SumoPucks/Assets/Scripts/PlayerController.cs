@@ -78,9 +78,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Flick (Vector2 aim) {
-		print("aim: " + aim);
-		print("power: " + FlickPower);
-
 		rb.AddForce(aim * FlickPower * -1);
 		FlickPower = 0;
 		remainingFlickCooldown = flickCooldown;
@@ -152,6 +149,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator Respawn(){
+		//should make sure players don't spawn on top of each other
     	transform.position = map.transform.Find("Spawnpoints").GetChild(playerNum).position;
     	rb.velocity = new Vector2(0,0);
 		yield return new WaitForSeconds(5);

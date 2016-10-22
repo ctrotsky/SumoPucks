@@ -6,26 +6,76 @@ public class GameController : MonoBehaviour {
 	public GameObject playerPrefab;
 	public GameObject map;
 	public GameObject players;
+
+	ArrayList joinedPlayers = new ArrayList();
+
+	enum Mode {Joining, Running};
+	Mode mode;
 	
 	// Use this for initialization
 	void Start () {
-		StartNewGame(map, 3);
+		mode = Mode.Joining;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (mode == Mode.Joining){
+			WaitForJoinPlayers();
+			if (WaitForStart()){
+				StartNewGame(map);
+				mode = Mode.Running;
+			}
+		}
 	}
 
-	void WaitForPlayerConnect(){
+	void WaitForJoinPlayers(){
+		int joinedPlayerNum = -1;
+		if (Input.GetButtonDown("Player0A")){
+			joinedPlayerNum = 0;
+		}
+		if (Input.GetButtonDown("Player1A")){
+			joinedPlayerNum = 1;
+		}
+		if (Input.GetButtonDown("Player2A")){
+			joinedPlayerNum = 2;
+		}
+		if (Input.GetButtonDown("Player3A")){
+			joinedPlayerNum = 3;
+		}
+		if (Input.GetButtonDown("Player4A")){
+			joinedPlayerNum = 4;
+		}
 
+		if (joinedPlayerNum >= 0){
+			if (!joinedPlayers.Contains(joinedPlayerNum)){
+				Debug.Log("Player" + joinedPlayerNum + " Joined");
+				joinedPlayers.Add(joinedPlayerNum);
+			} else {
+				Debug.Log("Player" + joinedPlayerNum + " Quit");
+				joinedPlayers.Remove(joinedPlayerNum);
+			}
+			joinedPlayerNum = -1;
+		}
 	}
 
-	void StartNewGame(GameObject map, int numPlayers){
+	bool WaitForStart(){
+		bool pressedStart = false;
+
+		for (int i = 0; i <= 4; i++){
+			if (Input.GetButtonDown("Player"+i+"Start")){
+				pressedStart = true;
+			}
+		}
+
+		return pressedStart;
+	}
+
+	void StartNewGame(GameObject map){
 		GameObject spawnPoints = map.transform.Find("Spawnpoints").gameObject;
+		//Do other new game stuff. Timer? Idk
 
-		for (int i = 0; i < numPlayers; i++){
-			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), i);
+		for (int i = 0; i < joinedPlayers.Count; i++){
+			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), (int)joinedPlayers[i]);
 		}
 	}
 
