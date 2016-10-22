@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour {
     public Powerups powerUps;
     public Stats stats;
 
+    public int lives = 3;
+
     // Use this for initialization
     void Start () {
 		rb = GetComponent<Rigidbody2D>();
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void AnimateCharge(){
-		float increment = transform.localScale.x / (flickCooldown*chargeSpeed);
+		float increment = transform.localScale.x / (maxFlickPower/chargeSpeed);
 		if (flickCharge.transform.localScale.x < transform.localScale.x){
 			flickCharge.transform.localScale += new Vector3(increment, increment, 0);
 		}
@@ -95,5 +97,28 @@ public class PlayerController : MonoBehaviour {
             col.gameObject.GetComponent<Powerups>().addSpike();
             
         }
+    }
+
+	void OnTriggerExit2D(Collider2D col)
+    {
+    	Debug.Log("ahhh");
+        if (col.gameObject.tag == "Floor")
+        {
+            AnimateFall();
+           	Die();
+        }
+    }
+
+    void AnimateFall(){
+    	for (int i = 0; i < transform.localScale.x; i++)
+    	{
+    		//this doesn't actually animate because it's not a couroutine lol
+    		transform.localScale = transform.localScale - new Vector3(1,1,0);
+    	}
+    }
+
+    void Die(){
+    	lives--;
+    	//respawn?
     }
 }
