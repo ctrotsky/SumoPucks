@@ -8,6 +8,7 @@ public class Powerups : MonoBehaviour
     public int hammer { get; set; }
     public int save { get; set; }
 
+
     public void setPowerups(int sp, int j, int h, int s)
     {
         spike = sp;
@@ -18,8 +19,6 @@ public class Powerups : MonoBehaviour
     public void addSpike()
     {
         spike += 1;
-        Debug.Log("test");
-        print("test");
     }
     public void addJump()
     {
