@@ -4,18 +4,22 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D rb;
-	private float Flickpower;
-	public float maxFlickPower = 50;
+
+	private float FlickPower;
+	private float remainingFlickCooldown;
+
+	public float maxFlickPower = 500;
 	public float friction = 1;
-	public float chargeSpeed = 1;
-	public float chargeCooldown; //unimplemented
+	public float chargeSpeed = 10;
+	public float flickCooldown = 50;
 	public int playerNum;
 	public GameObject aimer;
 	
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
-		Flickpower = 0;
+		FlickPower = 0;
+		remainingFlickCooldown = 0;
 		rb.drag = friction;
 	}
 
@@ -23,27 +27,42 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		Vector2 aim = getAim();
 
-		if (Input.GetButton("Player" + playerNum + "A")){
-			ChargeFlick(aim);
+		if (remainingFlickCooldown <= 0){
+			if (Input.GetButton("Player" + playerNum + "A")){
+				ChargeFlick();
+			}
+			if (Input.GetButtonUp("Player" + playerNum + "A")){
+				Flick(aim);
+			}
 		}
-		if (Input.GetButtonUp("Player" + playerNum + "A")){
-			Flick(aim);
+
+		ShowFlickAim(aim);
+		Cooldown();
+	}
+
+	void Cooldown(){
+		if (remainingFlickCooldown >= 0){
+			remainingFlickCooldown--;
 		}
 	}
 
-	void ChargeFlick(Vector2 aim) {
-		if (Flickpower < maxFlickPower){
-			Flickpower+= chargeSpeed;
-		}
+	void ShowFlickAim(Vector2 aim){
 		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 270; //added degrees at end will change depending on which way sprite faces
  		aimer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+	}
+
+	void ChargeFlick() {
+		if (FlickPower < maxFlickPower){
+			FlickPower+= chargeSpeed;
+		}
 	}
 
 	void Flick (Vector2 aim) {
 		print("aim: " + aim);
 
-		rb.AddForce(aim * Flickpower * -1);
-		Flickpower = 0;
+		rb.AddForce(aim * FlickPower * -1);
+		FlickPower = 0;
+		remainingFlickCooldown = flickCooldown;
 	}
 
 	Vector2 getAim () {
