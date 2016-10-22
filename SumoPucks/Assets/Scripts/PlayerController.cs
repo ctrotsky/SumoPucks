@@ -23,14 +23,11 @@ public class PlayerController : MonoBehaviour {
 
     public int lives = 3;
 
-    public enum PowerType
-    {
-        Spike, Jump, Hammer, Save
-    }
     public PowerType powerType;
 
     // Use this for initialization
     void Start () {
+        powerUps = GetComponent<Powerups>();
 		rb = GetComponent<Rigidbody2D>();
 		FlickPower = 0;
 		remainingFlickCooldown = 0;
@@ -99,32 +96,33 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        //if (col.gameObject.tag == "Item")
-        powerType = (PowerType) Enum.Parse(typeof(PowerType), col.gameObject.tag);
-        switch(powerType)
+        if (col.gameObject.tag == "Item")
         {
-            case PowerType.Spike:
-                col.gameObject.GetComponent<Powerups>().addSpike();
-                print("gained spike");
-                break;
-            case PowerType.Jump:
-                col.gameObject.GetComponent<Powerups>().addJump();
-                print("gained jump");
-                break;
-            case PowerType.Hammer:
-                col.gameObject.GetComponent<Powerups>().addHammer();
-                print("gained hammer");
-                break;
-            case PowerType.Save:
-                col.gameObject.GetComponent<Powerups>().addSave();
-                print("gained save");
-                break;
+            switch (col.gameObject.GetComponent<Pickup>().getPower())
+            {
+                case PowerType.SPIKE:
+                    powerUps.addSpike();
+                    print("gained spike");
+                    break;
+                case PowerType.JUMP:
+                    powerUps.addJump();
+                    print("gained jump");
+                    break;
+                case PowerType.HAMMER:
+                    powerUps.addHammer();
+                    print("gained hammer");
+                    break;
+                case PowerType.SAVE:
+                    powerUps.addSave();
+                    print("gained save");
+                    break;
+            }
+            Destroy(col.gameObject);
         }
     }
 
 	void OnTriggerExit2D(Collider2D col)
     {
-    	Debug.Log("ahhh");
         if (col.gameObject.tag == "Floor")
         {
             AnimateFall();
