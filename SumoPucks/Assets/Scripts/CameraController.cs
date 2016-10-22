@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
 {
     Camera camera;
     public float minSizeY = 0.5f;
+    public float buffer = 0;
 
     // Use this for initialization
     void Start()
@@ -53,12 +54,9 @@ public class CameraController : MonoBehaviour
         float width = Mathf.Abs(highX - lowX) * 0.5f;
         float height = Mathf.Abs( highY - lowY) * 0.5f;
 
-        Debug.Log("Width: " + width);
-        Debug.Log("Height: " + height);
-
         //computing the size
         float camSizeX = Mathf.Max(width, minSizeX);
-        camera.orthographicSize = Mathf.Max(height,
+        camera.orthographicSize = Mathf.Max(height + buffer,
             camSizeX * Screen.height / Screen.width, minSizeY);
     }
 }
