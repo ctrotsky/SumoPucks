@@ -9,6 +9,9 @@ public class Powerups : MonoBehaviour
     public int save { get; set; }
 
     Animator anim;
+    GameObject hammerObject;
+
+    bool attacking;
 
     public void setPowerups(int sp, int j, int h, int s)
     {
@@ -52,6 +55,27 @@ public class Powerups : MonoBehaviour
     // Use this for initialization
     void Start () {
 		anim = GetComponent<Animator>();
+		hammerObject = transform.Find("hammer").gameObject;
+		attacking = false;
+	}
+
+	public void UseHammer() {
+		if (hammer >= 1 && !attacking){
+			removeHammer();
+			StartCoroutine(spinHammer());
+		}
+	}
+
+	IEnumerator spinHammer(){
+		attacking = true;
+		int swingSpeed = 10;
+		hammerObject.SetActive(true);
+		for (int i = 0; i < 360/swingSpeed; i++){
+			hammerObject.transform.Rotate(new Vector3(0,0,-swingSpeed));
+			yield return new WaitForEndOfFrame();
+		}
+		hammerObject.SetActive(false);
+		attacking = false;
 	}
 	
 	// Update is called once per frame

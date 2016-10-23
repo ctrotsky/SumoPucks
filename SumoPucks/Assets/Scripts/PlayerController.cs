@@ -52,6 +52,9 @@ public class PlayerController : MonoBehaviour {
 					Flick(aim);
 				}
 			}
+			if (Input.GetButtonDown("Player" + playerNum + "X")){
+				powerUps.UseHammer();
+			}
 		}
 
 		ShowFlickAim(aim);
