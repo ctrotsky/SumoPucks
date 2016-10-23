@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour {
     void Start () {
         powerUps = GetComponent<Powerups>();
 		rb = GetComponent<Rigidbody2D>();
-
 		FlickPower = 0;
 		remainingFlickCooldown = 0;
 		rb.drag = friction;
