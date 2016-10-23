@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4cf75b35c303a8e469eab400a05eb344
-timeCreated: 1477223140
+timeCreated: 1477227211
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,6 +12,13 @@ TextureImporter:
     21300010: SpikeIcon
     21300012: HammerIcon
     21300014: Arrow
+    21300016: SpikePowerup
+    21300018: RedHead
+    21300020: BlueHead
+    21300022: HammerPowerup
+    21300024: GreenHead
+    21300026: YellowHead
+    21300028: Shadow
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -159,6 +166,97 @@ TextureImporter:
         y: 461
         width: 134
         height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SpikePowerup
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 799
+        width: 172
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: RedHead
+      rect:
+        serializedVersion: 2
+        x: 1323
+        y: 804
+        width: 109
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BlueHead
+      rect:
+        serializedVersion: 2
+        x: 1306
+        y: 542
+        width: 165
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: HammerPowerup
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 309
+        width: 172
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GreenHead
+      rect:
+        serializedVersion: 2
+        x: 1294
+        y: 326
+        width: 184
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: YellowHead
+      rect:
+        serializedVersion: 2
+        x: 1333
+        y: 99
+        width: 100
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shadow
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 415
+        width: 225
+        height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

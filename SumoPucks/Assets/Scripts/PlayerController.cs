@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		charAnim = transform.Find("Character").GetComponent<Animator>();
-		//hudController = GameObject.FindGameObjectWithTag("HUDCanvas").GetComponent<HUDController>();
+		hudController = GameObject.FindGameObjectWithTag("HUDCanvas").GetComponent<HUDController>();
 		flickPower = 0;
 		remainingFlickCooldown = 0;
 		rb.drag = friction;
@@ -146,6 +146,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
 	void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Floor" && alive)
@@ -158,10 +159,12 @@ public class PlayerController : MonoBehaviour {
     IEnumerator Stun(float time){
     	stunned = true;
     	charAnim.SetBool("Stunned", true);
+		anim.SetBool("Stunned", true);
     	flickPower = 0;
     	yield return new WaitForSeconds(time);
     	stunned = false;
 		charAnim.SetBool("Stunned", false);
+		anim.SetBool("Stunned", false);
     }
 
     IEnumerator AnimateFall(){

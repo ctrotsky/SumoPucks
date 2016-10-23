@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		mode = Mode.Joining;
-		hudController = HUD.GetComponent<HUDController>();
+		hudController = GameObject.FindGameObjectWithTag("HUDCanvas").GetComponent<HUDController>();
 	}
 	
 	// Update is called once per frame
@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour {
 			characterNum = -1;
 		}
 
-		hudController.StartText(joinedPlayers.Count > 0);
+		hudController.StartText(joinedPlayers.Count >= 2);
 	}
 
 	bool WaitForStart(){
@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour {
 			}
 		}
 
-		return pressedStart && (joinedPlayers.Count > 0);
+		return pressedStart && (joinedPlayers.Count >= 2);
 	}
 
 	void StartNewGame(GameObject mapPrefab){

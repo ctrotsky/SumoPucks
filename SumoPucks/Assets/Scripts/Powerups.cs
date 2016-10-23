@@ -8,12 +8,16 @@ public class Powerups : MonoBehaviour
     public int hammer { get; set; }
     public int save { get; set; }
 
+    private int playerNum;
+
     public float spikesDuration;
 
     Animator anim;
     GameObject hammerObject;
 	GameObject spikesObject;
     PlayerController pc;
+    HUDController hudController;
+
 
     bool attacking;
 
@@ -27,6 +31,7 @@ public class Powerups : MonoBehaviour
     public void addSpike()
     {
         spike += 1;
+		hudController.Spikes(playerNum, spike);
     }
     public void addJump()
     {
@@ -35,6 +40,7 @@ public class Powerups : MonoBehaviour
     public void addHammer()
     {
         hammer += 1;
+		hudController.Hammer(playerNum, hammer);
     }
     public void addSave()
     {
@@ -43,6 +49,7 @@ public class Powerups : MonoBehaviour
     public void removeSpike()
     {
         spike -= 1;
+		hudController.Spikes(playerNum, spike);
     }
     public void removeJump()
     {
@@ -51,6 +58,7 @@ public class Powerups : MonoBehaviour
     public void removeHammer()
     {
         hammer -= 1;
+		hudController.Hammer(playerNum, hammer);
     }
     public void removeSave()
     {
@@ -63,6 +71,10 @@ public class Powerups : MonoBehaviour
 		hammerObject = transform.Find("hammer").gameObject;
 		spikesObject = transform.Find("Spikes").gameObject;
 		attacking = false;
+		hudController = GameObject.FindGameObjectWithTag("HUDCanvas").GetComponent<HUDController>();
+		playerNum = GetComponent<PlayerController>().playerNum;
+		hudController.Hammer(playerNum, hammer);
+		hudController.Spikes(playerNum, hammer);
 	}
 
 	public void UseHammer() {
@@ -77,6 +89,7 @@ public class Powerups : MonoBehaviour
 	public void UseSpikes() {
 		Debug.Log("use spikes");
 		if (spike >= 1 && !attacking){
+			removeSpike();
 			StartCoroutine(SpikesFriction());
 			StartCoroutine(AnimateSpikes());
 		}

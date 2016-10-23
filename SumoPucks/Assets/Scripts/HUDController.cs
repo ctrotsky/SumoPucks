@@ -28,14 +28,21 @@ public class HUDController : MonoBehaviour {
 		playerHUDs[playerNum].transform.Find("JoinText").GetComponent<Image>().enabled = !joined;
 		playerHUDs[playerNum].transform.Find("Panel").gameObject.SetActive(joined);
 		playerHUDs[playerNum].transform.Find("Panel").Find("ProfilePanel").Find("ProfileImage").gameObject.GetComponent<Image>().sprite = ProfileImages[characterNum];
-
 	}
 
 	public void StartText(bool visible){
 		startText.GetComponent<Text>().enabled = visible;
 	}
 
-	public void Lives(int playerNum, int lives){
-		playerHUDs[playerNum].transform.Find("Panel").Find("ProfilePanel").Find("LifeCount").gameObject.GetComponent<Text>().text = "x" + lives;
+	public void Lives(int playerNum, int remaining){
+		playerHUDs[playerNum].transform.Find("Panel").Find("ProfilePanel").Find("LifeCount").gameObject.GetComponent<Text>().text = "x" + remaining;
+	}
+
+	public void Hammer(int playerNum, int remaining){
+		playerHUDs[playerNum].transform.Find("Panel").Find("WeaponsPanel").Find("HammerCount").gameObject.GetComponent<Text>().text = "x" + remaining;
+	}
+
+	public void Spikes(int playerNum, int remaining){
+		playerHUDs[playerNum].transform.Find("Panel").Find("WeaponsPanel").Find("SpikesCount").gameObject.GetComponent<Text>().text = "x" + remaining;
 	}
 }

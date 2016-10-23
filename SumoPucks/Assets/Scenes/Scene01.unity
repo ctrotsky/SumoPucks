@@ -1109,7 +1109,7 @@ GameObject:
   - 114: {fileID: 467611701}
   m_Layer: 5
   m_Name: HUDCanvas
-  m_TagString: Untagged
+  m_TagString: HUDCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1216,11 +1216,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProfileImages:
-  - {fileID: 21300002, guid: a9c8d6af396272b4a8b99337ca18422c, type: 3}
-  - {fileID: 21300002, guid: a9c8d6af396272b4a8b99337ca18422c, type: 3}
-  - {fileID: 21300002, guid: 15ca61fcca81d6346bcaa959b283c782, type: 3}
-  - {fileID: 21300002, guid: 51517a40a11c5f84aae5388ca0bf7111, type: 3}
-  - {fileID: 21300002, guid: b230b3b4ab0d23843ab5654b219db5af, type: 3}
+  - {fileID: 21300018, guid: 4cf75b35c303a8e469eab400a05eb344, type: 3}
+  - {fileID: 21300018, guid: 4cf75b35c303a8e469eab400a05eb344, type: 3}
+  - {fileID: 21300020, guid: 4cf75b35c303a8e469eab400a05eb344, type: 3}
+  - {fileID: 21300024, guid: 4cf75b35c303a8e469eab400a05eb344, type: 3}
+  - {fileID: 21300026, guid: 4cf75b35c303a8e469eab400a05eb344, type: 3}
 --- !u!1 &473787482
 GameObject:
   m_ObjectHideFlags: 0
