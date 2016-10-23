@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D rb;
 	Animator anim;
+	Animator charAnim;
+	HUDController hudController;
 
 	private float flickPower;
 	private float remainingFlickCooldown;
@@ -35,11 +37,16 @@ public class PlayerController : MonoBehaviour {
         powerUps = GetComponent<Powerups>();
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
-		//anim.setcontroller?
+		charAnim = transform.Find("Character").GetComponent<Animator>();
+		//hudController = GameObject.FindGameObjectWithTag("HUDCanvas").GetComponent<HUDController>();
 		flickPower = 0;
 		remainingFlickCooldown = 0;
 		rb.drag = friction;
 		alive = true;
+	}
+
+	void UpdateStats(){
+		rb.drag = friction;
 	}
 
 	// Update is called once per frame
@@ -58,10 +65,14 @@ public class PlayerController : MonoBehaviour {
 			if (Input.GetButtonDown("Player" + playerNum + "X")){
 				powerUps.UseHammer();
 			}
+			if (Input.GetButtonDown("Player" + playerNum + "B")){
+				powerUps.UseSpikes();
+			}
 		}
 
 		ShowFlickAim(aim);
 		Cooldown();
+		UpdateStats();
 	}
 
 	void Cooldown(){
@@ -71,9 +82,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void ShowFlickAim(Vector2 aim){
-		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 270; //added degrees at end will change depending on which way sprite faces
+		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 90; //added degrees at end will change depending on which way sprite faces
  		aimer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
- 		aimer.transform.localPosition = (aim.normalized * -0.7f) - new Vector2(-0.01f, 0.25f);
+ 		aimer.transform.localPosition = (aim.normalized * -0.6f) - new Vector2(-0.01f, 0.25f);
 	}
 
 	void ChargeFlick() {
@@ -146,11 +157,11 @@ public class PlayerController : MonoBehaviour {
 
     IEnumerator Stun(float time){
     	stunned = true;
-    	anim.SetBool("Stunned", true);
+    	charAnim.SetBool("Stunned", true);
     	flickPower = 0;
     	yield return new WaitForSeconds(time);
     	stunned = false;
-		anim.SetBool("Stunned", false);
+		charAnim.SetBool("Stunned", false);
     }
 
     IEnumerator AnimateFall(){
@@ -165,6 +176,7 @@ public class PlayerController : MonoBehaviour {
     	Debug.Log("Died, lives: " + lives);
     	if (lives >= 1){
 			lives--;
+			hudController.Lives(playerNum, lives);
     		StartCoroutine(Respawn());
     	}
     	else {

@@ -8,8 +8,12 @@ public class Powerups : MonoBehaviour
     public int hammer { get; set; }
     public int save { get; set; }
 
+    public float spikesDuration;
+
     Animator anim;
     GameObject hammerObject;
+	GameObject spikesObject;
+    PlayerController pc;
 
     bool attacking;
 
@@ -55,7 +59,9 @@ public class Powerups : MonoBehaviour
     // Use this for initialization
     void Start () {
 		anim = GetComponent<Animator>();
+		pc = GetComponent<PlayerController>();
 		hammerObject = transform.Find("hammer").gameObject;
+		spikesObject = transform.Find("Spikes").gameObject;
 		attacking = false;
 	}
 
@@ -68,8 +74,36 @@ public class Powerups : MonoBehaviour
 		}
 	}
 
+	public void UseSpikes() {
+		Debug.Log("use spikes");
+		if (spike >= 1 && !attacking){
+			StartCoroutine(SpikesFriction());
+			StartCoroutine(AnimateSpikes());
+		}
+	}
+
 	void AnimateHammer(){
 		anim.SetTrigger("HammAtk");
+	}
+
+	IEnumerator SpikesFriction(){
+		pc.friction = pc.friction + 4;
+		yield return new WaitForSeconds(spikesDuration);
+		pc.friction = pc.friction - 4;
+	}
+
+	IEnumerator AnimateSpikes(){
+		attacking = true;
+		for (int i = 0; i < 10; i++){
+			spikesObject.transform.localScale += new Vector3(0.05f,0.05f,0.0f);
+			yield return new WaitForEndOfFrame();
+		}
+		yield return new WaitForSeconds(spikesDuration);
+		for (int i = 0; i < 10; i++){
+			spikesObject.transform.localScale -= new Vector3(0.05f,0.05f,0.0f);
+			yield return new WaitForEndOfFrame();
+		}
+		attacking = false;
 	}
 
 	/*IEnumerator spinHammer(){
