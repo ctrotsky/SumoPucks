@@ -45,4 +45,16 @@ public class HUDController : MonoBehaviour {
 	public void Spikes(int playerNum, int remaining){
 		playerHUDs[playerNum].transform.Find("Panel").Find("WeaponsPanel").Find("SpikesCount").gameObject.GetComponent<Text>().text = "x" + remaining;
 	}
+
+	public void ResetHUD(){
+		for (int i = 0; i < playerHUDs.Length; i++){
+			playerHUDs[i].transform.Find("JoinText").GetComponent<Image>().enabled = true;
+			playerHUDs[i].transform.Find("Panel").gameObject.SetActive(false);
+		}
+	}
+
+	public void WinMessage(int playerNum){
+		startText.GetComponent<Text>().text = "Player " + playerNum + " Wins!";
+		startText.GetComponent<Text>().enabled = true;
+	}
 }

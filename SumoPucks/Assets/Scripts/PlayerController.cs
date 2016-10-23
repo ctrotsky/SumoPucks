@@ -82,9 +82,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void ShowFlickAim(Vector2 aim){
-		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 90; //added degrees at end will change depending on which way sprite faces
+		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 270; //added degrees at end will change depending on which way sprite faces
  		aimer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
- 		aimer.transform.localPosition = (aim.normalized * -0.6f) - new Vector2(-0.01f, 0.25f);
+ 		aimer.transform.localPosition = (aim.normalized * 0.6f) - new Vector2(-0.01f, 0.25f);
 	}
 
 	void ChargeFlick() {
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Flick (Vector2 aim) {
-		rb.AddForce(aim * flickPower * -1);
+		rb.AddForce(aim * flickPower * 1);
 		flickPower = 0;
 		remainingFlickCooldown = flickCooldown;
 		flickCharge.transform.localScale = new Vector3(0.1f,0.1f,0f);
@@ -140,9 +140,8 @@ public class PlayerController : MonoBehaviour {
                     break;
             }
             Destroy(col.gameObject);
-        } else if (col.gameObject.tag == "Stun"){
+        } else if (col.gameObject.tag == "Stun" && !powerUps.attacking){
         	StartCoroutine(Stun(2));
-
         }
     }
 
@@ -184,15 +183,16 @@ public class PlayerController : MonoBehaviour {
     	}
     	else {
     		Debug.Log("Player " + playerNum + " is out of lives.");
+    		this.gameObject.SetActive(false);
     		Destroy(this);
     	}
     }
 
     IEnumerator Respawn(){
 		//should make sure players don't spawn on top of each other
-    	transform.position = map.transform.Find("Spawnpoints").GetChild(playerNum).position;
     	rb.velocity = new Vector2(0,0);
 		yield return new WaitForSeconds(respawnDelay);
+		transform.position = map.transform.Find("Spawnpoints").GetChild(playerNum).position;
     	transform.localScale = new Vector3(1.0f,1.0f,0.0f);
     	alive = true;
     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -36,6 +37,9 @@ public class GameController : MonoBehaviour {
 				StartNewGame(mapPrefab);
 				StartCoroutine(SpawnPowerups());
 			}
+		}
+		if (mode == Mode.Running){
+			CheckWinState();
 		}
 	}
 
@@ -103,15 +107,33 @@ public class GameController : MonoBehaviour {
 
 		SpawnPowerup();
 		SpawnPowerup();
-		SpawnPowerup();
-		SpawnPowerup();
-		SpawnPowerup();
-
 	}
 
 	public GameObject SpawnMap(GameObject map){
 		map.gameObject.name = "Map";
 		return map;
+	}
+
+	void CheckWinState(){
+		GameObject[] remaining = GameObject.FindGameObjectsWithTag("Player");
+		Debug.Log("Remaining length: " + remaining.Length);
+		if (remaining.Length == 1){
+			Debug.Log("Win!");
+			hudController.WinMessage(remaining[0].GetComponent<PlayerController>().playerNum);
+			StartCoroutine(Reset());
+		}
+
+	}
+
+	IEnumerator Reset(){
+		yield return new WaitForSeconds(5);
+		Scene scene = SceneManager.GetActiveScene();
+		SceneManager.LoadScene(scene.name);
+		//Destroy(currentMap);
+		//joinedPlayers.Clear();
+		//hudController.ResetHUD();
+		//mode = Mode.Joining;
+
 	}
 
 	public void SpawnPlayer(GameObject player, Transform spawnPoint, int playerNumber, int characterNumber){
@@ -131,8 +153,8 @@ public class GameController : MonoBehaviour {
 
 		//Keep guessing random positions in currentMap scale until it is touching the map's collider.
 		//do {
-			float randX = Random.Range(currentMap.transform.position.x - currentMap.transform.localScale.x/2f ,currentMap.transform.position.x + currentMap.transform.localScale.x/2f);
-			float randY = Random.Range(currentMap.transform.position.y - currentMap.transform.localScale.y/2f ,currentMap.transform.position.y + currentMap.transform.localScale.y/2f);
+		float randX = Random.Range(currentMap.transform.position.x - currentMap.transform.lossyScale.x*2f ,currentMap.transform.position.x + currentMap.transform.lossyScale.x*2f);
+		float randY = Random.Range(currentMap.transform.position.y - currentMap.transform.lossyScale.y*2f ,currentMap.transform.position.y + currentMap.transform.lossyScale.y*2f);
 			powerup.transform.position = new Vector3(randX,randY,0);
 			Debug.Log("touching: " + powerup.GetComponent<Collider2D>().IsTouching(currentMap.GetComponent<Collider2D>()));
 		//} while(!powerup.GetComponent<Collider2D>().IsTouching(currentMap.GetComponent<Collider2D>()));

@@ -302,7 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61839cd10ba017438b05526252cbcec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spikesDuration: 5
+  spikesDuration: 2
+  attacking: 0
 --- !u!114 &114000013374871902
 MonoBehaviour:
   m_ObjectHideFlags: 1

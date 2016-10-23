@@ -19,7 +19,7 @@ public class Powerups : MonoBehaviour
     HUDController hudController;
 
 
-    bool attacking;
+    public bool attacking;
 
     public void setPowerups(int sp, int j, int h, int s)
     {
@@ -83,7 +83,14 @@ public class Powerups : MonoBehaviour
 			removeHammer();
 			AnimateHammer();
 			//StartCoroutine(spinHammer());
+			StartCoroutine(HammerAttackTimer());
 		}
+	}
+
+	IEnumerator HammerAttackTimer(){
+		attacking = true;
+		yield return new WaitForSeconds(2);
+		attacking = false;
 	}
 
 	public void UseSpikes() {
@@ -100,9 +107,9 @@ public class Powerups : MonoBehaviour
 	}
 
 	IEnumerator SpikesFriction(){
-		pc.friction = pc.friction + 4;
+		pc.friction = pc.friction + 6;
 		yield return new WaitForSeconds(spikesDuration);
-		pc.friction = pc.friction - 4;
+		pc.friction = pc.friction - 6;
 	}
 
 	IEnumerator AnimateSpikes(){
