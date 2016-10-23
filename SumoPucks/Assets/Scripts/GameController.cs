@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour {
 	public GameObject playerPrefab;
 	public GameObject mapPrefab;
 	public GameObject[] powerupPrefabs;
+	public RuntimeAnimatorController[] animatorControllers;
+	public Sprite[] playerSprites;
 	public GameObject players;
 
 	private GameObject currentMap;
@@ -82,6 +84,8 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void SpawnPlayer(GameObject player, Transform spawnPoint, int playerNumber){
+		player.transform.Find("Character").GetComponent<Animator>().runtimeAnimatorController = animatorControllers[playerNumber];
+		player.GetComponent<SpriteRenderer>().sprite = playerSprites[playerNumber];
 		player.transform.position = spawnPoint.position;
 		player.gameObject.name = "Player" + playerNumber;
 		player.GetComponent<PlayerController>().playerNum = playerNumber;

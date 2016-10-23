@@ -5,10 +5,12 @@ using System;
 public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D rb;
+	Animator anim;
 
-	private float FlickPower;
+	private float flickPower;
 	private float remainingFlickCooldown;
 	private bool alive;
+	private bool stunned;
 
 	public float maxFlickPower = 500;
 	public float friction = 1;
@@ -32,7 +34,9 @@ public class PlayerController : MonoBehaviour {
     void Start () {
         powerUps = GetComponent<Powerups>();
 		rb = GetComponent<Rigidbody2D>();
-		FlickPower = 0;
+		anim = GetComponent<Animator>();
+		//anim.setcontroller?
+		flickPower = 0;
 		remainingFlickCooldown = 0;
 		rb.drag = friction;
 		alive = true;
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		Vector2 aim = getAim();
 
-		if (alive){
+		if (alive && !stunned){
 			if (remainingFlickCooldown <= 0){
 				if (Input.GetButton("Player" + playerNum + "A")){
 					ChargeFlick();
@@ -69,19 +73,19 @@ public class PlayerController : MonoBehaviour {
 	void ShowFlickAim(Vector2 aim){
 		var angle = Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg + 270; //added degrees at end will change depending on which way sprite faces
  		aimer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
- 		aimer.transform.localPosition = aim.normalized * -0.7f;
+ 		aimer.transform.localPosition = (aim.normalized * -0.7f) - new Vector2(-0.01f, 0.25f);
 	}
 
 	void ChargeFlick() {
-		if (FlickPower < maxFlickPower){
-			FlickPower+= chargeSpeed;
+		if (flickPower < maxFlickPower){
+			flickPower+= chargeSpeed;
 		}
 		AnimateCharge();
 	}
 
 	void Flick (Vector2 aim) {
-		rb.AddForce(aim * FlickPower * -1);
-		FlickPower = 0;
+		rb.AddForce(aim * flickPower * -1);
+		flickPower = 0;
 		remainingFlickCooldown = flickCooldown;
 		flickCharge.transform.localScale = new Vector3(0.1f,0.1f,0f);
 	}
@@ -125,6 +129,9 @@ public class PlayerController : MonoBehaviour {
                     break;
             }
             Destroy(col.gameObject);
+        } else if (col.gameObject.tag == "Stun"){
+        	StartCoroutine(Stun(2));
+
         }
     }
 
@@ -135,6 +142,15 @@ public class PlayerController : MonoBehaviour {
 			alive = false;
             StartCoroutine(AnimateFall());
         }
+    }
+
+    IEnumerator Stun(float time){
+    	stunned = true;
+    	anim.SetBool("Stunned", true);
+    	flickPower = 0;
+    	yield return new WaitForSeconds(time);
+    	stunned = false;
+		anim.SetBool("Stunned", false);
     }
 
     IEnumerator AnimateFall(){

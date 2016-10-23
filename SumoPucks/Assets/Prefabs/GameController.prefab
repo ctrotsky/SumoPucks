@@ -54,5 +54,18 @@ MonoBehaviour:
   playerPrefab: {fileID: 1000011080314462, guid: 38cefbb8c2140074c8420c2355498774,
     type: 2}
   mapPrefab: {fileID: 1000013696662592, guid: 251d4101bc2d25b49abb9670ebd95118, type: 2}
-  powerupPrefabs: []
+  powerupPrefabs:
+  - {fileID: 1000010109586264, guid: 06def134a93ad174c9cd02af29966463, type: 2}
+  animatorControllers:
+  - {fileID: 9100000, guid: 21a1c4e4170166c4e8db775d20b38728, type: 2}
+  - {fileID: 9100000, guid: 21a1c4e4170166c4e8db775d20b38728, type: 2}
+  - {fileID: 9100000, guid: a19da6f644aed584ba9f8f1aef12e0be, type: 2}
+  - {fileID: 9100000, guid: abdefe14ddc337c4095a73df44c88b61, type: 2}
+  - {fileID: 9100000, guid: e24a55076eb1f654386c7fcd981fbb62, type: 2}
+  playerSprites:
+  - {fileID: 21300000, guid: a9c8d6af396272b4a8b99337ca18422c, type: 3}
+  - {fileID: 21300000, guid: a9c8d6af396272b4a8b99337ca18422c, type: 3}
+  - {fileID: 21300000, guid: 15ca61fcca81d6346bcaa959b283c782, type: 3}
+  - {fileID: 21300000, guid: 51517a40a11c5f84aae5388ca0bf7111, type: 3}
+  - {fileID: 21300000, guid: b230b3b4ab0d23843ab5654b219db5af, type: 3}
   players: {fileID: 0}

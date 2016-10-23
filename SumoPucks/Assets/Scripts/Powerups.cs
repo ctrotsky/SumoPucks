@@ -60,23 +60,31 @@ public class Powerups : MonoBehaviour
 	}
 
 	public void UseHammer() {
+		Debug.Log("use hammer");
 		if (hammer >= 1 && !attacking){
 			removeHammer();
-			StartCoroutine(spinHammer());
+			AnimateHammer();
+			//StartCoroutine(spinHammer());
 		}
 	}
 
-	IEnumerator spinHammer(){
+	void AnimateHammer(){
+		anim.SetTrigger("HammAtk");
+	}
+
+	/*IEnumerator spinHammer(){
+		Debug.Log("spin hammer");
 		attacking = true;
 		int swingSpeed = 10;
 		hammerObject.SetActive(true);
 		for (int i = 0; i < 360/swingSpeed; i++){
+			Debug.Log("spinnnnnn");
 			hammerObject.transform.Rotate(new Vector3(0,0,-swingSpeed));
 			yield return new WaitForEndOfFrame();
 		}
 		hammerObject.SetActive(false);
 		attacking = false;
-	}
+	}*/
 	
 	// Update is called once per frame
 	void Update () {
