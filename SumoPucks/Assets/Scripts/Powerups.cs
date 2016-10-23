@@ -8,6 +8,7 @@ public class Powerups : MonoBehaviour
     public int hammer { get; set; }
     public int save { get; set; }
 
+    Animator anim;
 
     public void setPowerups(int sp, int j, int h, int s)
     {
@@ -50,13 +51,12 @@ public class Powerups : MonoBehaviour
     }
     // Use this for initialization
     void Start () {
-	    
+		anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
-
 
 }

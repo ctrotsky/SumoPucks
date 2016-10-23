@@ -128,15 +128,15 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Floor")
+        if (col.gameObject.tag == "Floor" && alive)
         {
+			alive = false;
             StartCoroutine(AnimateFall());
         }
     }
 
     IEnumerator AnimateFall(){
-    	for (int i = 0; i < 10; i++)
-    	{
+    	while (transform.localScale.x > 0){
     		yield return new WaitForEndOfFrame();
     		transform.localScale = transform.localScale - new Vector3(0.1f,0.1f,0.0f);
     	}
@@ -144,9 +144,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Die(){
-    	lives--;
-    	alive = false;
+    	Debug.Log("Died, lives: " + lives);
     	if (lives >= 1){
+			lives--;
     		StartCoroutine(Respawn());
     	}
     	else {
