@@ -6,13 +6,19 @@ public class HUDController : MonoBehaviour {
 
 	GameObject[] playerHUDs;
 	GameObject startText;
+	GameObject joinedPlayersText;
 
 	public Sprite[] ProfileImages;
+
+	const string waitingToJoin = "Waiting for players to join... ";
 
 	// Use this for initialization
 	void Start () {
 		playerHUDs = new GameObject[5];
 		startText = transform.Find("StartText").gameObject;
+		joinedPlayersText = transform.Find("JoinedPlayersText").gameObject;
+		joinedPlayersText.GetComponent<Text>().text = waitingToJoin + "0/4";
+
 
 		for (int i = 1; i < playerHUDs.Length; i++){
 			playerHUDs[i] = transform.Find("Player" + i + "HUD").gameObject;
@@ -32,6 +38,11 @@ public class HUDController : MonoBehaviour {
 
 	public void StartText(bool visible){
 		startText.GetComponent<Text>().enabled = visible;
+	}
+
+	public void JoinedPlayersText(int numPlayers, bool visible){
+		joinedPlayersText.GetComponent<Text>().text = waitingToJoin + numPlayers + "/4";
+		joinedPlayersText.GetComponent<Text>().enabled = visible;
 	}
 
 	public void Lives(int playerNum, int remaining){

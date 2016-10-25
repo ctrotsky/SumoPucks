@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour {
 	void WaitForJoinPlayers(){
 		int joinedPlayerNum = -1;
 		int characterNum = -1;
+		bool quitting = false;
 
 		for (int i = 0; i <= 4; i++){
 			if (Input.GetButtonDown("Player"+i+"A")){
@@ -64,23 +65,36 @@ public class GameController : MonoBehaviour {
 				joinedPlayerNum = i;
 				characterNum = 4;
 			}
+			if (Input.GetButtonDown("Player"+i+"Back")){
+				joinedPlayerNum = i;
+				characterNum = 1;
+				quitting = true;
+			}
 		}
 
+
 		if (joinedPlayerNum >= 0){
-			if (!joinedPlayers.Contains(joinedPlayerNum)){
-				Debug.Log("Player" + joinedPlayerNum + " Joined");
-				joinedPlayers.Add(joinedPlayerNum, characterNum);
-				hudController.JoinedPlayer(joinedPlayerNum, characterNum, true);
-			} else {
+
+			if (!quitting){
+				if (!joinedPlayers.Contains(joinedPlayerNum)){
+					Debug.Log("Player" + joinedPlayerNum + " Joined");
+					joinedPlayers.Add(joinedPlayerNum, characterNum);
+					hudController.JoinedPlayer(joinedPlayerNum, characterNum, true);
+				}
+			}
+			else {
 				Debug.Log("Player" + joinedPlayerNum + " Quit");
 				joinedPlayers.Remove(joinedPlayerNum);
 				hudController.JoinedPlayer(joinedPlayerNum, characterNum, false);
 			}
-			joinedPlayerNum = -1;
-			characterNum = -1;
 		}
 
+		joinedPlayerNum = -1;
+		characterNum = -1;
+		quitting = false;
+
 		hudController.StartText(joinedPlayers.Count >= 2);
+		hudController.JoinedPlayersText(joinedPlayers.Count, true);
 	}
 
 	bool WaitForStart(){
@@ -97,6 +111,7 @@ public class GameController : MonoBehaviour {
 
 	void StartNewGame(GameObject mapPrefab){
 		hudController.StartText(false);
+		hudController.JoinedPlayersText(joinedPlayers.Count, false);
 		currentMap = SpawnMap((GameObject)Instantiate(mapPrefab));
 		GameObject spawnPoints = currentMap.transform.Find("Spawnpoints").gameObject;
 		//Do other new game stuff. Timer? Idk
