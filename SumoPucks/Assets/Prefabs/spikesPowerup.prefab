@@ -39,7 +39,7 @@ GameObject:
   - 61: {fileID: 61000011560744208}
   - 114: {fileID: 114000012111679396}
   m_Layer: 0
-  m_Name: SpikesPowerup
+  m_Name: spikesPowerup
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
