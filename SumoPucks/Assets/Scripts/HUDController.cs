@@ -24,13 +24,11 @@ public class HUDController : MonoBehaviour {
 			playerHUDs[i] = transform.Find("Player" + i + "HUD").gameObject;
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void JoinedPlayer(int playerNum, int characterNum, bool joined){
+		Debug.Log("playernum " + playerNum);
+		Debug.Log("characterNum " + characterNum);
+		Debug.Log("joined " + joined);
 		playerHUDs[playerNum].transform.Find("JoinText").GetComponent<Image>().enabled = !joined;
 		playerHUDs[playerNum].transform.Find("Panel").gameObject.SetActive(joined);
 		playerHUDs[playerNum].transform.Find("Panel").Find("ProfilePanel").Find("ProfileImage").gameObject.GetComponent<Image>().sprite = ProfileImages[characterNum];

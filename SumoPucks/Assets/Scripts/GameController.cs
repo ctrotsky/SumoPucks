@@ -44,64 +44,52 @@ public class GameController : MonoBehaviour {
 	}
 
 	void WaitForJoinPlayers(){
-		int joinedPlayerNum = -1;
-		int characterNum = -1;
-		bool quitting = false;
-
 		for (int i = 0; i <= 4; i++){
-			if (Input.GetButtonDown("Player"+i+"A")){
-				joinedPlayerNum = i;
-				characterNum = 3;
+			if (Input.GetButtonDown("Joystick"+i+"A")){
+				JoinPlayer(new PlayerInfo(joinedPlayers.Count +1, i, 3));
 			}
-			if (Input.GetButtonDown("Player"+i+"X")){
-				joinedPlayerNum = i;
-				characterNum = 2;
+			if (Input.GetButtonDown("Joystick"+i+"X")){
+				JoinPlayer(new PlayerInfo(joinedPlayers.Count +1, i, 2));
 			}
-			if (Input.GetButtonDown("Player"+i+"B")){
-				joinedPlayerNum = i;
-				characterNum = 1;
+			if (Input.GetButtonDown("Joystick"+i+"B")){
+				JoinPlayer(new PlayerInfo(joinedPlayers.Count +1, i, 1));
 			}
-			if (Input.GetButtonDown("Player"+i+"Y")){
-				joinedPlayerNum = i;
-				characterNum = 4;
+			if (Input.GetButtonDown("Joystick"+i+"Y")){
+				JoinPlayer(new PlayerInfo(joinedPlayers.Count +1, i, 4));
 			}
-			if (Input.GetButtonDown("Player"+i+"Back")){
-				joinedPlayerNum = i;
-				characterNum = 1;
-				quitting = true;
+			if (Input.GetButtonDown("Joystick"+i+"Back")){
+				QuitPlayer(i);
 			}
 		}
-
-
-		if (joinedPlayerNum >= 0){
-
-			if (!quitting){
-				if (!joinedPlayers.Contains(joinedPlayerNum)){
-					Debug.Log("Player" + joinedPlayerNum + " Joined");
-					joinedPlayers.Add(joinedPlayerNum, characterNum);
-					hudController.JoinedPlayer(joinedPlayerNum, characterNum, true);
-				}
-			}
-			else {
-				Debug.Log("Player" + joinedPlayerNum + " Quit");
-				joinedPlayers.Remove(joinedPlayerNum);
-				hudController.JoinedPlayer(joinedPlayerNum, characterNum, false);
-			}
-		}
-
-		joinedPlayerNum = -1;
-		characterNum = -1;
-		quitting = false;
 
 		hudController.StartText(joinedPlayers.Count >= 2);
 		hudController.JoinedPlayersText(joinedPlayers.Count, true);
+	}
+
+	void JoinPlayer(PlayerInfo p){
+		//Key joystick num, value playerInfo
+		if (!joinedPlayers.Contains(p.joystickNum)){
+			Debug.Log("Player" + p.playerNum + " Joined on joystick " + p.joystickNum);
+			joinedPlayers.Add(p.joystickNum, p);
+			hudController.JoinedPlayer(p.playerNum, p.characterNum, true);
+		}
+	}
+
+	void QuitPlayer(int joystickNum){
+		//Key joystick num, value playerInfo
+		if (joinedPlayers.Contains(joystickNum)){
+			PlayerInfo p = (PlayerInfo)joinedPlayers.GetByIndex(joinedPlayers.IndexOfKey(joystickNum));
+			Debug.Log("Player" + p.playerNum + " quit on joystick " + p.joystickNum);
+			joinedPlayers.Remove(p.joystickNum);
+			hudController.JoinedPlayer(p.playerNum, p.characterNum, false);
+		}
 	}
 
 	bool WaitForStart(){
 		bool pressedStart = false;
 
 		for (int i = 0; i <= 4; i++){
-			if (Input.GetButtonDown("Player"+i+"Start")){
+			if (Input.GetButtonDown("Joystick"+i+"Start")){
 				pressedStart = true;
 			}
 		}
@@ -117,7 +105,7 @@ public class GameController : MonoBehaviour {
 		//Do other new game stuff. Timer? Idk
 
 		for (int i = 0; i < joinedPlayers.Count; i++){
-			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), (int)joinedPlayers.GetKey(i), (int)joinedPlayers.GetByIndex(i));
+			SpawnPlayer((GameObject)Instantiate(playerPrefab), spawnPoints.transform.GetChild(i), (PlayerInfo)joinedPlayers.GetByIndex(i));
 		}
 
 		SpawnPowerup();
@@ -134,7 +122,7 @@ public class GameController : MonoBehaviour {
 		Debug.Log("Remaining length: " + remaining.Length);
 		if (remaining.Length == 1){
 			Debug.Log("Win!");
-			hudController.WinMessage(remaining[0].GetComponent<PlayerController>().playerNum);
+			hudController.WinMessage(remaining[0].GetComponent<PlayerController>().joystickNum);
 			StartCoroutine(Reset());
 		}
 
@@ -151,14 +139,15 @@ public class GameController : MonoBehaviour {
 
 	}
 
-	public void SpawnPlayer(GameObject player, Transform spawnPoint, int playerNumber, int characterNumber){
-		player.transform.Find("Character").GetComponent<Animator>().runtimeAnimatorController = animatorControllers[characterNumber];
-		player.GetComponent<SpriteRenderer>().sprite = playerSprites[characterNumber];
-		player.transform.Find("hammer").GetComponent<SpriteRenderer>().sprite = hammerSprites[characterNumber];
-		player.transform.Find("Aimer").GetComponent<SpriteRenderer>().color = characterColors[characterNumber];
+	public void SpawnPlayer(GameObject player, Transform spawnPoint, PlayerInfo playerInfo){
+		player.transform.Find("Character").GetComponent<Animator>().runtimeAnimatorController = animatorControllers[playerInfo.characterNum];
+		player.GetComponent<SpriteRenderer>().sprite = playerSprites[playerInfo.characterNum];
+		player.transform.Find("hammer").GetComponent<SpriteRenderer>().sprite = hammerSprites[playerInfo.characterNum];
+		player.transform.Find("Aimer").GetComponent<SpriteRenderer>().color = characterColors[playerInfo.characterNum];
 		player.transform.position = spawnPoint.position;
-		player.gameObject.name = "Player" + playerNumber;
-		player.GetComponent<PlayerController>().playerNum = playerNumber;
+		player.gameObject.name = "Player" + playerInfo.playerNum;
+		player.GetComponent<PlayerController>().playerNum = playerInfo.playerNum;
+		player.GetComponent<PlayerController>().joystickNum = playerInfo.joystickNum;
 		player.GetComponent<PlayerController>().map = spawnPoint.parent.parent.gameObject;
 		player.transform.SetParent(players.transform);
 	}
@@ -179,6 +168,18 @@ public class GameController : MonoBehaviour {
 		while (mode == Mode.Running){
 			yield return new WaitForSeconds(Random.Range(5,10));
 			SpawnPowerup();
+		}
+	}
+
+	public struct PlayerInfo{
+		public int playerNum;
+		public int joystickNum;
+		public int characterNum;
+
+		public PlayerInfo(int playerNum, int joystickNum, int characterNum){
+			this.playerNum = playerNum;
+			this.joystickNum = joystickNum;
+			this.characterNum = characterNum;
 		}
 	}
 }

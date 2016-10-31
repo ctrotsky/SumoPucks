@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 	public float flickCooldown = 50;
 	public float respawnDelay = 3;
 	public int playerNum;
+	public int joystickNum;
 
 	public GameObject aimer;
 	public GameObject flickCharge;
@@ -55,17 +56,17 @@ public class PlayerController : MonoBehaviour {
 
 		if (alive && !stunned){
 			if (remainingFlickCooldown <= 0){
-				if (Input.GetButton("Player" + playerNum + "A")){
+				if (Input.GetButton("Joystick" + joystickNum + "A")){
 					ChargeFlick();
 				}
-				if (Input.GetButtonUp("Player" + playerNum + "A")){
+				if (Input.GetButtonUp("Joystick" + joystickNum + "A")){
 					Flick(aim);
 				}
 			}
-			if (Input.GetButtonDown("Player" + playerNum + "X")){
+			if (Input.GetButtonDown("Joystick" + joystickNum + "X")){
 				powerUps.UseHammer();
 			}
-			if (Input.GetButtonDown("Player" + playerNum + "B")){
+			if (Input.GetButtonDown("Joystick" + joystickNum + "B")){
 				powerUps.UseSpikes();
 			}
 		}
@@ -102,8 +103,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	Vector2 getAim () {
-		float h = Input.GetAxis("Player" + playerNum + "Horizontal");
-		float v = Input.GetAxis("Player" + playerNum + "Vertical");
+		float h = Input.GetAxis("Joystick" + joystickNum + "Horizontal");
+		float v = Input.GetAxis("Joystick" + joystickNum + "Vertical");
 
 		Vector2 aim = new Vector2(h, v);
 		return aim;
